@@ -1,0 +1,12 @@
+* {
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+body {
+    width: 100vw;
+    margin: 50px auto;
+}
+
+body > h1 {
+    text-align: center;
+}
