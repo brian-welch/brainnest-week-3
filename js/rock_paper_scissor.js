@@ -255,7 +255,6 @@ const spacer = (spaceNumber) => {
     return temp;
 }
 
-
 const playRound = (playerSelection, computerSelection, roundNumber) => {
     playerSelection = playerSelection.toLowerCase();
     if (onlyPossibleResponses.indexOf(playerSelection) == -1) {
