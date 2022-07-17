@@ -232,7 +232,7 @@ const spacer = (spaceNumber) => {
     return temp;
 }
 
-playerScore = 0, computerScore = 0;
+let playerScore = 0, computerScore = 0;
 let leftSpacer = '', rightSpacer = '', scorecardTable = '', hr = '';
 
 const playRound = (playerSelection, computerSelection, roundNumber) => {
