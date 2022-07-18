@@ -264,9 +264,9 @@ const namePadder = (nameInput) => {
 const playRound = (playerSelection, computerSelection, roundNumber) => {
     playerSelection = playerSelection.toLowerCase();
     if (onlyPossibleResponses.indexOf(playerSelection) == -1) {
-        playRound(prompt(`\nBAD MOVE!!\n¨¨¨¨¨¨¨¨¨¨\n\n"${playerSelection}" is not a valid response.\n\nOnly 'rock', 'paper' or 'scissors' are acceptible; replay round ${roundNumber}.\n\n Choose again:\n`, '').toLowerCase(), computerPlay(), roundNumber);
+        playRound(prompt(`\nBAD MOVE!!\n¨¨¨¨¨¨¨¨¨¨\n\n"${playerSelection}" is not a valid response.\n\nOnly 'rock', 'paper' or 'scissors' are acceptible; replay round ${roundNumber}.\n\n Choose again:\n`, '').trim().toLowerCase(), computerPlay(), roundNumber);
     } else if (playerSelection == computerSelection) {
-        playRound(prompt(`\nTIE!!\n¨¨¨¨\n\nYou both chose "${capitalize(playerSelection)}; replay round ${roundNumber}.\n\n Choose again:\n`, '').toLowerCase(), computerPlay(), roundNumber);
+        playRound(prompt(`\nTIE!!\n¨¨¨¨\n\nYou both chose "${capitalize(playerSelection)}; replay round ${roundNumber}.\n\n Choose again:\n`, '').trim().toLowerCase(), computerPlay(), roundNumber);
     } else {
         let result;
         switch (playerSelection) {
@@ -310,7 +310,7 @@ Master Control to a death match of Rock - Paper - Scissors.\n\nBest out of 5 rou
     } else {
         playerScore = 0, computerScore = 0;
         for (let i = 0; i < 5; i++) {
-            playRound(prompt('\nMake your move!:\n', '').toLowerCase(), computerPlay(), i + 1);
+            playRound(prompt('\nMake your move!:\n', '').trim().toLowerCase(), computerPlay(), i + 1);
             console.clear();
             console.log(scorecardTable, 'font-weight:900;color: white; background-color: black; border: solid 7px black;margin-bottom:-20px;border-radius: 3px;', 'color: black; background-color: none; border: none;font-weight:400;margin-bottom:0;border-radius:0;');
             if (playerScore == 3 || computerScore == 3) {
