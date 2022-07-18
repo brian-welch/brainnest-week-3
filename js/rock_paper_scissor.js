@@ -10,7 +10,7 @@ const signatureAlphabet = {
     "a":
         {
             0: "┌─┐",
-            1: "├─┤",
+            1: "├─┤", // ┤
             2: "┴ ┴"
         },
     "b":
@@ -201,7 +201,7 @@ const mastControlsignature = `%c┌┬┐┌─┐┌─┐┌┬┐┌─┐┬
 
 let playerScore = 0, computerScore = 0;
 
-let leftSpacer = '', rightSpacer = '', scorecardTable = '', hr = '';
+let leftSpacer = '', rightSpacer = '', scorecardTable = '', hr = '', tr = '', br = '';
 
 const playerSignature = (playerName) => {
     let temp = '%c';
@@ -288,14 +288,15 @@ const playRound = (playerSelection, computerSelection, roundNumber) => {
         scorecardTable += `|    ${roundNumber}    |`; // Round number column
         scorecardTable += `${leftSpacer}${scorecardResponses[playerSelection]}${rightSpacer}|`; // player response column
         scorecardTable += `     ${scorecardResponses[computerSelection]}     |`; // computer response column
-        scorecardTable += result ? `    This round goes to: ${playerName.trim()}!\n${hr}` : `    This round goes to: Master Control!\n${hr}`
+        scorecardTable += result ? `    This round goes to: ${playerName.trim()}!\n` : `    This round goes to: Master Control!\n`
+        scorecardTable += (playerScore == 3 || computerScore == 3) ? br : hr;
     }
 }
 
 const game = () => {
     console.clear();
     scorecardTable = '';
-    scorecardTable += `\n%c  ROUND  |  ${playerName.toUpperCase()}  |  MASTER CONTROL  %c\n${hr}`;
+    scorecardTable += `\n%c  ROUND  |  ${playerName.toUpperCase()}  |  MASTER CONTROL  %c\n${tr}`;
     let block_01 = `\nWelcome ${playerName.trim()}!\n\nYour mission, if you decide to accept it, is to challenge
 Master Control to a death match of Rock - Paper - Scissors.\n\nBest out of 5 rounds - tie rounds are replayed.
 \nAre you OK with this challenge?`;
@@ -314,7 +315,7 @@ Master Control to a death match of Rock - Paper - Scissors.\n\nBest out of 5 rou
         for (let i = 0; i < 5; i++) {
             playRound(prompt('\nMake your move!:\n', '').toLowerCase(), computerPlay(), i + 1);
             console.clear();
-            console.log(scorecardTable, 'font-weight:900;color: white; background-color: black; border: solid 7px black;', 'color: black; background-color: none; border: none;font-weight:400;');
+            console.log(scorecardTable, 'font-weight:900;color: white; background-color: black; border: solid 7px black;margin-bottom:-20px;border-radius: 3px;', 'color: black; background-color: none; border: none;font-weight:400;margin-bottom:0;border-radius:0;');
             if (playerScore == 3 || computerScore == 3) {
                 console.log(`\n\nTHE WINNER IS:\n-~-~-~-~-~-~-~-
 ${playerScore > computerScore ? playerSignature(playerName) : mastControlsignature}\nEnter game(); in the console to play again\n\n`, 'color: blue', 'color: black');
@@ -332,6 +333,11 @@ leftSpacer = spacer(Math.floor(((playerName.length) - 4)/2));
 
 rightSpacer = spacer(Math.ceil(((playerName.length) - 4)/2));
 
-hr = `+---------+` + dasher(playerName.length) + `+------------------+\n`;
+// 
+
+tr = `┌---------┬` + dasher(playerName.length) + `┬------------------┐\n`;
+hr = `├---------┼` + dasher(playerName.length) + `┼------------------┤\n`;
+br = `└---------┴` + dasher(playerName.length) + `┴------------------┘\n`;
+
 
 game();
