@@ -195,17 +195,16 @@ const signatureAlphabet = {
         }
 }
 
-const mastControlsignature = `
-┌┬┐┌─┐┌─┐┌┬┐┌─┐┬─┐  ┌─┐┌─┐┌┐┌┌┬┐┬─┐┌─┐┬  
+const mastControlsignature = `%c┌┬┐┌─┐┌─┐┌┬┐┌─┐┬─┐  ┌─┐┌─┐┌┐┌┌┬┐┬─┐┌─┐┬  
 │││├─┤└─┐ │ ├┤ ├┬┘  │  │ ││││ │ ├┬┘│ ││  
-┴ ┴┴ ┴└─┘ ┴ └─┘┴└─  └─┘└─┘┘└┘ ┴ ┴└─└─┘┴─┘\n`;
+┴ ┴┴ ┴└─┘ ┴ └─┘┴└─  └─┘└─┘┘└┘ ┴ ┴└─└─┘┴─┘%c\n`;
 
 let playerScore = 0, computerScore = 0;
 
 let leftSpacer = '', rightSpacer = '', scorecardTable = '', hr = '';
 
 const playerSignature = (playerName) => {
-    let temp = '\n';
+    let temp = '%c';
     let letters = playerName.trim().toLowerCase().split('');
     for (let i = 0; i < 3; i++) {
         letters.forEach((letter) => {
@@ -213,7 +212,7 @@ const playerSignature = (playerName) => {
         });
         temp += '\n';
     }
-    temp += '\n';
+    temp += '%c\n';
     return temp;
 }
 
@@ -253,6 +252,17 @@ const spacer = (spaceNumber) => {
     return temp;
 }
 
+const namePadder = (nameInput) => {
+    let nameLength = nameInput.length;
+    if (nameInput.length < 8) {
+        let leftPad = Math.floor((8 - nameLength)/2);
+        let rightPad = Math.ceil((8 - nameLength)/2);
+        for (let i = 0; i < leftPad; i++) { nameInput = nameInput.replace(/^/," "); }
+        for (let i = 0; i < rightPad; i++) { nameInput = nameInput.replace(/$/," "); }
+    }
+    return nameInput;
+}
+
 const playRound = (playerSelection, computerSelection, roundNumber) => {
     playerSelection = playerSelection.toLowerCase();
     if (onlyPossibleResponses.indexOf(playerSelection) == -1) {
@@ -285,7 +295,7 @@ const playRound = (playerSelection, computerSelection, roundNumber) => {
 const game = () => {
     console.clear();
     scorecardTable = '';
-    scorecardTable += `${hr}|  Round  |  ${playerName}  |  Master Control  |\n${hr}`;
+    scorecardTable += `\n%c  ROUND  |  ${playerName.toUpperCase()}  |  MASTER CONTROL  %c\n${hr}`;
     let block_01 = `\nWelcome ${playerName.trim()}!\n\nYour mission, if you decide to accept it, is to challenge
 Master Control to a death match of Rock - Paper - Scissors.\n\nBest out of 5 rounds - tie rounds are replayed.
 \nAre you OK with this challenge?`;
@@ -304,25 +314,14 @@ Master Control to a death match of Rock - Paper - Scissors.\n\nBest out of 5 rou
         for (let i = 0; i < 5; i++) {
             playRound(prompt('\nMake your move!:\n', '').toLowerCase(), computerPlay(), i + 1);
             console.clear();
-            console.log(scorecardTable);
+            console.log(scorecardTable, 'font-weight:900;color: white; background-color: black; border: solid 7px black;', 'color: black; background-color: none; border: none;font-weight:400;');
             if (playerScore == 3 || computerScore == 3) {
                 console.log(`\n\nTHE WINNER IS:\n-~-~-~-~-~-~-~-
-${playerScore > computerScore ? playerSignature(playerName) : mastControlsignature}\nEnter  game();  in the console to play again\n\n`);
+${playerScore > computerScore ? playerSignature(playerName) : mastControlsignature}\nEnter game(); in the console to play again\n\n`, 'color: blue', 'color: black');
                 break;
             }
         }
     }
-}
-
-const namePadder = (nameInput) => {
-    let nameLength = nameInput.length;
-    if (nameInput.length < 8) {
-        let leftPad = Math.floor((8 - nameLength)/2);
-        let rightPad = Math.ceil((8 - nameLength)/2);
-        for (let i = 0; i < leftPad; i++) { nameInput = nameInput.replace(/^/," "); }
-        for (let i = 0; i < rightPad; i++) { nameInput = nameInput.replace(/$/," "); }
-    }
-    return nameInput;
 }
 
 const nameInput = capitalize(prompt('\n\nPlease fill out your name:\n\n', '').toLowerCase()); // .split(' ')[0]);
