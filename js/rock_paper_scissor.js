@@ -195,19 +195,17 @@ const signatureAlphabet = {
         }
 }
 
-const mastControlsignature =`
+const mastControlsignature = `
 ┌┬┐┌─┐┌─┐┌┬┐┌─┐┬─┐  ┌─┐┌─┐┌┐┌┌┬┐┬─┐┌─┐┬  
 │││├─┤└─┐ │ ├┤ ├┬┘  │  │ ││││ │ ├┬┘│ ││  
-┴ ┴┴ ┴└─┘ ┴ └─┘┴└─  └─┘└─┘┘└┘ ┴ ┴└─└─┘┴─┘`;
+┴ ┴┴ ┴└─┘ ┴ └─┘┴└─  └─┘└─┘┘└┘ ┴ ┴└─└─┘┴─┘\n`;
 
 let playerScore = 0, computerScore = 0;
 
 let leftSpacer = '', rightSpacer = '', scorecardTable = '', hr = '';
 
-const replay = () => { window.location.reload(); }
-
 const playerSignature = (playerName) => {
-    let temp = '';
+    let temp = '\n';
     let letters = playerName.trim().toLowerCase().split('');
     for (let i = 0; i < 3; i++) {
         letters.forEach((letter) => {
@@ -258,13 +256,9 @@ const spacer = (spaceNumber) => {
 const playRound = (playerSelection, computerSelection, roundNumber) => {
     playerSelection = playerSelection.toLowerCase();
     if (onlyPossibleResponses.indexOf(playerSelection) == -1) {
-        // santitize the entry
-        alert(`\n\n Sorry, but "${playerSelection}" is not a valid response.\n\nOnly 'rock', 'paper' or 'scissors' are acceptible.\n\n`);
-        playRound(prompt('\nMake your move!:\n', '').toLowerCase(), computerPlay(), roundNumber);
+        playRound(prompt(`\nBAD MOVE!!\n¨¨¨¨¨¨¨¨¨¨\n\n"${playerSelection}" is not a valid response.\n\nOnly 'rock', 'paper' or 'scissors' are acceptible; replay round ${roundNumber}.\n\n Choose again:\n`, '').toLowerCase(), computerPlay(), roundNumber);
     } else if (playerSelection == computerSelection) {
-        // check for a tie - no contest - do over
-        alert(`\n\n OK - You both chose "${capitalize(playerSelection)}" ~> It's a tie.\n\n You'll have to redo round ${roundNumber}.\n\n`);
-        playRound(prompt('\nMake your move!:\n', '').toLowerCase(), computerPlay(), roundNumber);
+        playRound(prompt(`\nTIE!!\n¨¨¨¨\n\nYou both chose "${capitalize(playerSelection)}; replay round ${roundNumber}.\n\n Choose again:\n`, '').toLowerCase(), computerPlay(), roundNumber);
     } else {
         let result;
         switch (playerSelection) {
@@ -280,33 +274,40 @@ const playRound = (playerSelection, computerSelection, roundNumber) => {
             default:
                 console.log(`If you are seeing this message, then Brian stinks at coding......`);
         }
-        if (result) {
-            playerScore++;
-            scorecardTable += `|    ${roundNumber}    |${leftSpacer}${scorecardResponses[playerSelection]}${rightSpacer}|     ${scorecardResponses[computerSelection]}     |`;
-            scorecardTable += `    This round goes to: ${playerName.trim()}!\n${hr}`;
-        } else {
-            computerScore++;
-            scorecardTable += `|    ${roundNumber}    |${leftSpacer}${scorecardResponses[playerSelection]}${rightSpacer}|     ${scorecardResponses[computerSelection]}     |`;
-            scorecardTable += `    This round goes to: Master Control!\n${hr}`;
-        }
+        result ? playerScore++ : computerScore++;
+        scorecardTable += `|    ${roundNumber}    |`; // Round number column
+        scorecardTable += `${leftSpacer}${scorecardResponses[playerSelection]}${rightSpacer}|`; // player response column
+        scorecardTable += `     ${scorecardResponses[computerSelection]}     |`; // computer response column
+        scorecardTable += result ? `    This round goes to: ${playerName.trim()}!\n${hr}` : `    This round goes to: Master Control!\n${hr}`
     }
 }
 
 const game = () => {
+    console.clear();
+    scorecardTable = '';
     scorecardTable += `${hr}|  Round  |  ${playerName}  |  Master Control  |\n${hr}`;
-    let directions = `\nWelcome ${playerName.trim()}!\n\nYour mission, if you decide to accept it, is to challenge
-Master Control to a death match of Rock - Paper - Scissors.\n\nBest out of 5 rounds - ties rounds are replayed.
+    let block_01 = `\nWelcome ${playerName.trim()}!\n\nYour mission, if you decide to accept it, is to challenge
+Master Control to a death match of Rock - Paper - Scissors.\n\nBest out of 5 rounds - tie rounds are replayed.
 \nAre you OK with this challenge?`;
-    if (!confirm(directions)) {
-        console.log("\n\nSee you later chicken heart!\n\nMaybe next time.\n\n");
+    let block_02 = `\nWelcome back ${playerName.trim()}!\n\nYou know the drill.\n\nBest out of 5 rounds - tie rounds are replayed.
+\nOK when you are good to go...`;
+    let confirmFalseMssg = `     _____  _      _        _                 _ 
+    / ____|| |    (_)      | |               | |
+   | |     | |__   _   ___ | | __ ___  _ __  | |
+   | |     | '_ \\ | | / __|| |/ // _ \\| '_ \\ | |
+   | |____ | | | || || (__ |   <|  __/| | | ||_|
+    \\_____||_| |_||_| \\___||_|\\_\\\\___||_| |_|(_)\n\nEnter  game();  in the console if you change your mind.`;
+    if (!confirm( (playerScore != 0 || computerScore != 0) ? block_02 : block_01 )) {
+        console.log(`\n\n${confirmFalseMssg}\n\n`);
     } else {
+        playerScore = 0, computerScore = 0;
         for (let i = 0; i < 5; i++) {
             playRound(prompt('\nMake your move!:\n', '').toLowerCase(), computerPlay(), i + 1);
             console.clear();
             console.log(scorecardTable);
             if (playerScore == 3 || computerScore == 3) {
                 console.log(`\n\nTHE WINNER IS:\n-~-~-~-~-~-~-~-
-${playerScore > computerScore ? playerSignature(playerName) : mastControlsignature}\n\nEnter ' replay() ' in the console to play again\n\n`);
+${playerScore > computerScore ? playerSignature(playerName) : mastControlsignature}\nEnter  game();  in the console to play again\n\n`);
                 break;
             }
         }
