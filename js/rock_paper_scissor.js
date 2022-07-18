@@ -1,4 +1,4 @@
-const onlyPossibleResponses = ['rock', 'paper', 'scissors']; // only three acceptible responses
+const onlyPossibleResponses = ['rock', 'paper', 'scissors'];
 const scorecardResponses = {
     'rock': '  rock  ',
     'paper': ' paper  ',
@@ -10,7 +10,7 @@ const signatureAlphabet = {
     "a":
         {
             0: "┌─┐",
-            1: "├─┤", // ┤
+            1: "├─┤",
             2: "┴ ┴"
         },
     "b":
@@ -217,7 +217,6 @@ const playerSignature = (playerName) => {
 }
 
 const capitalizeWord = (word) => {
-    // for aethetics
     let temp = word.split('');
     return temp.shift().toUpperCase() + temp.join('');
 }
@@ -232,7 +231,6 @@ const capitalize = (entry) => {
 }
 
 const computerPlay = () => {
-    // choose randomly 1 of the three acceptible responses
     return onlyPossibleResponses[Math.floor(Math.random() * 3)];
 }
 
@@ -295,8 +293,7 @@ const playRound = (playerSelection, computerSelection, roundNumber) => {
 
 const game = () => {
     console.clear();
-    scorecardTable = '';
-    scorecardTable += `\n%c  ROUND  |  ${playerName.toUpperCase()}  |  MASTER CONTROL  %c\n${tr}`;
+    scorecardTable = `\n%c  ROUND  |  ${playerName.toUpperCase()}  |  MASTER CONTROL  %c\n${tr}`;
     let block_01 = `\nWelcome ${playerName.trim()}!\n\nYour mission, if you decide to accept it, is to challenge
 Master Control to a death match of Rock - Paper - Scissors.\n\nBest out of 5 rounds - tie rounds are replayed.
 \nAre you OK with this challenge?`;
@@ -325,7 +322,7 @@ ${playerScore > computerScore ? playerSignature(playerName) : mastControlsignatu
     }
 }
 
-const nameInput = capitalize(prompt('\n\nPlease fill out your name:\n\n', '').toLowerCase()); // .split(' ')[0]);
+const nameInput = capitalize(prompt('\n\nPlease fill out your name:\n\n', '').toLowerCase());
 
 const playerName = namePadder(nameInput);
 
@@ -333,11 +330,8 @@ leftSpacer = spacer(Math.floor(((playerName.length) - 4)/2));
 
 rightSpacer = spacer(Math.ceil(((playerName.length) - 4)/2));
 
-// 
-
 tr = `┌---------┬` + dasher(playerName.length) + `┬------------------┐\n`;
 hr = `├---------┼` + dasher(playerName.length) + `┼------------------┤\n`;
 br = `└---------┴` + dasher(playerName.length) + `┴------------------┘\n`;
-
 
 game();
